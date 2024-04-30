@@ -1,16 +1,16 @@
 """
 Copyright start
 MIT License
-Copyright (c) 2023 Fortinet Inc
+Copyright (c) 2024 Fortinet Inc
 Copyright end
 """
+import json
+
 import requests
-import time
 from connectors.core.connector import get_logger, ConnectorError
-from connectors.core.utils import update_connnector_config
-from .taegis_xdr_api_auth import TaegisXDRAuth
-import base64, json
+
 from .constants import *
+from .taegis_xdr_api_auth import TaegisXDRAuth
 
 logger = get_logger("taegis-xdr")
 
@@ -28,7 +28,7 @@ class TaegisXDR:
         self.connector_info = config.pop('connector_info', '')
         self.access_token = self.auth.validate_token(config, self.connector_info)
 
-    def make_request(self, headers=None, endpoint='', params=None, data=None, method='GET', url=None, json_data=None):
+    def make_request(self, headers=None, endpoint='', params=None, data=None, method='POST', url=None, json_data=None):
         try:
             if url is None:
                 url = self.server_url + endpoint
@@ -73,7 +73,7 @@ def get_alerts(config: dict, params: dict):
 
 
 def get_assets(config: dict, params: dict):
-    params = _build_payload(params)
+    params = _build_payload(params, get_assets_dict)
     tx = TaegisXDR(config)
     data_query = {"query": get_assets_query,
                   "variables": params}
@@ -89,7 +89,7 @@ def get_endpoint(config: dict, params: dict):
 
 
 def get_investigations(config: dict, params: dict):
-    params = _build_payload(params)
+    params = _build_payload(params, get_investigations_dict)
     tx = TaegisXDR(config)
     data_query = {
         "query": get_investigations_query, "variables": params}
@@ -128,7 +128,7 @@ def isolate_assets(config: dict, params: dict):
 
 
 def update_alert_status(config: dict, params: dict):
-    params = _build_payload(params)
+    params = _build_payload(params, update_alert_status_dict)
     tx = TaegisXDR(config)
     data_query = {"query": update_alert_status_query, "variables": {"in": params}}
     return tx.make_request(endpoint="/graphql", method="POST", data=json.dumps(data_query))
@@ -193,12 +193,13 @@ def create_comment(config: dict, params: dict):
     tx = TaegisXDR(config)
     data_query = {
         "query": create_comment_query,
-        "variables": {"investigation_id": params.pop('investigation_id'), "activityLog": params}}
+        "variables": {"input" : params}}
     return tx.make_request(endpoint="/graphql", method="POST", data=json.dumps(data_query))
 
 
-def _build_payload(params):
-    return {key: valid_dict.get(val, val) for key, val in params.items() if val is not None and val != ''}
+def _build_payload(params: dict, options_dict: dict = {}) -> dict:
+    return {key: options_dict.get(val, val) if isinstance(val, str) else val for key, val in params.items() if
+            isinstance(val, (bool, int)) or val}
 
 
 operations = {

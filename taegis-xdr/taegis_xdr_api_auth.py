@@ -1,16 +1,19 @@
 """
 Copyright start
 MIT License
-Copyright (c) 2023 Fortinet Inc
+Copyright (c) 2024 Fortinet Inc
 Copyright end
 """
 
-from requests import request
-from time import time, ctime
+import base64
+import json
+import requests
 from datetime import datetime
+from time import time
+
 from connectors.core.connector import get_logger, ConnectorError
 from connectors.core.utils import update_connnector_config
-import json, base64, requests
+
 from .constants import server_url_dict
 
 logger = get_logger('taegis-xdr')

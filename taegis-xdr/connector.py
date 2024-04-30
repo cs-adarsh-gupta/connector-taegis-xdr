@@ -1,10 +1,11 @@
 """
 Copyright start
 MIT License
-Copyright (c) 2023 Fortinet Inc
+Copyright (c) 2024 Fortinet Inc
 Copyright end
 """
 from connectors.core.connector import Connector, get_logger, ConnectorError
+
 from .operations import operations
 from .taegis_xdr_api_auth import check
 

@@ -1,25 +1,32 @@
 """
 Copyright start
 MIT License
-Copyright (c) 2023 Fortinet Inc
+Copyright (c) 2024 Fortinet Inc
 Copyright end
 """
 
-valid_dict = {"Ascending": "asc", "Descending": "desc", "Hostname": "hostname", "IP Address": "ip_address",
-              "MAC Address": "mac_address", "Tag": "tag", "Username": "username", "OS Version": "os_version",
-              "Endpoint Type": "endpoint_type", "Created At": "created_at", "Updated At": "updated_at",
-              "Deleted At": "deleted_at", "OS Family": "os_family", "OS Distributor": "os_distributor",
-              "Sensor Version": "sensor_version"
-    , "ID": "id", "Tenant ID": "tenant_id", "Tags": "tags", "Genesis Alerts": "genesis_alerts",
-              "Genesis Events": "genesis_events", "Alerts": "alerts", "Events": "events", "Assets": "assets",
-              "Auth Credentials": "auth_credentials", "Key Findings": "key_findings", "Description": "description",
-              "Notified At": "notified_at",
-              "Created By": "created_by", "Status": "status", "Contributors": "contributors",
-              "Service Desk ID": "service_desk_id", "Service Desk Type": "service_desk_type",
-              "All Alerts": "all_alerts", "All Events": "all_events", "Priority": "priority", "Type": "type",
-              "Open": "OPEN", "True Positive Benign": "TRUE_POSITIVE_BENIGN",
-              "True Positive Malicious": "TRUE POSITIVE MALICIOUS", "False Positive": "FALSE POSITIVE",
-              "Not Actionable": "NOT ACTIONABLE", "Other": "OTHER", "Suppressed": "SUPPRESSED"}
+get_assets_dict = {"Hostname": "hostname", "IP Address": "ip_address",
+                   "MAC Address": "mac_address", "Tag": "tag", "Username": "username", "OS Version": "os_version",
+                   "Endpoint Type": "endpoint_type", "Created At": "created_at", "Updated At": "updated_at",
+                   "Deleted At": "deleted_at", "OS Family": "os_family", "OS Distributor": "os_distributor",
+                   "Sensor Version": "sensor_version", "Ascending": "asc", "Descending": "desc"}
+
+get_investigations_dict = {"Ascending": "asc", "Descending": "desc", "ID": "id", "Tenant ID": "tenant_id",
+                           "Tags": "tags",
+                           "Genesis Alerts": "genesis_alerts",
+                           "Genesis Events": "genesis_events", "Alerts": "alerts", "Events": "events",
+                           "Assets": "assets",
+                           "Auth Credentials": "auth_credentials", "Key Findings": "key_findings",
+                           "Description": "description",
+                           "Notified At": "notified_at",
+                           "Created By": "created_by", "Status": "status", "Contributors": "contributors",
+                           "Service Desk ID": "service_desk_id", "Service Desk Type": "service_desk_type",
+                           "All Alerts": "all_alerts", "All Events": "all_events", "Priority": "priority",
+                           "Type": "type"}
+
+update_alert_status_dict = {"Open": "OPEN", "True Positive Benign": "TRUE_POSITIVE_BENIGN",
+                            "True Positive Malicious": "TRUE_POSITIVE_MALICIOUS", "False Positive": "FALSE_POSITIVE",
+                            "Not Actionable": "NOT_ACTIONABLE", "Other": "OTHER", "Suppressed": "SUPPRESSED"}
 
 server_url_dict = {"US-1": "https://api.ctpx.secureworks.com", "US-2": "https://api.delta.taegis.secureworks.com",
                    "US WEST": "https://api.foxtrot.taegis.secureworks.com",
@@ -38,18 +45,18 @@ get_alerts_query = """
 get_assets_query = """
     query allAssets($offset: Int, $limit: Int, $order_by: AssetsOrderByInput, $order_direction: AssetsOrderDirectionInput, $filter_asset_state: AssetStateFilter, $only_most_recent: Boolean)
     {
-    allAssets(offset: $offset, limit: $limit, order_by: $order_by, order_direction: $order_direction, filter_asset_state: $filter_asset_state, only_most_recent: $only_most_recent)
-    {
-        totalResults offset limit assets { id hostId rn tenantId sensorTenant sensorId ingestTime createdAt updatedAt deletedAt lastSeenAt biosSerial firstDiskSerial systemVolumeSerial sensorVersion endpointType endpointPlatform hostnames { id createdAt updatedAt hostId hostname } ethernetAddresses { id createdAt updatedAt hostId mac } ipAddresses { id createdAt updatedAt ip hostId } users { id createdAt updatedAt hostId username } architecture osFamily osVersion osDistributor osRelease systemType osCodename kernelRelease kernelVersion tags { id hostId tenantId createdAt updatedAt tag key } connectionStatus model cloudProviderName cloudInstanceId endpointGroup { id } status }
+        allAssets(offset: $offset, limit: $limit, order_by: $order_by, order_direction: $order_direction, filter_asset_state: $filter_asset_state, only_most_recent: $only_most_recent)
+        {
+            totalResults offset limit assets { id hostId rn tenantId sensorTenant sensorId ingestTime createdAt updatedAt deletedAt lastSeenAt biosSerial firstDiskSerial systemVolumeSerial sensorVersion endpointType endpointPlatform hostnames { id createdAt updatedAt hostId hostname } ethernetAddresses { id createdAt updatedAt hostId mac } ipAddresses { id createdAt updatedAt ip hostId } users { id createdAt updatedAt hostId username } architecture osFamily osVersion osDistributor osRelease systemType osCodename kernelRelease kernelVersion tags { id hostId tenantId createdAt updatedAt tag key } connectionStatus model cloudProviderName cloudInstanceId endpointGroup { id } status }
+        }
     }
-}
     """
 
 get_endpoint_query = """query assetEndpointInfo($id: ID!)
 {
     assetEndpointInfo(id: $id)
     {
-        actualIsolationStatus allowedDomain color desiredIsolationStatus firstConnectTime hostId  hostName ignitionDetails    
+       hostId hostName actualIsolationStatus allowedDomain desiredIsolationStatus firstConnectTime moduleHealth { enabled lastRunningTime moduleDisplayName } lastConnectAddress lastConnectTime sensorVersion    
     }
 }
 """
@@ -58,10 +65,9 @@ get_investigations_query = """query investigationsSearch($page: Int, $perPage: I
     {
         investigationsSearch(page: $page, perPage: $perPage, query: $query, filterText: $filterText, orderByField: $orderByField, orderDirection: $orderDirection)
         {
-            totalCount investigations { search_queries { id } first_notified_at notified_at transition_state { handed_off acknowledge_time resolved_at_least_once handoff_time initial_handoff_time resolution_time initial_resolution_time acknowledged initial_acknowledge_time acknowledged_at_least_once resolved handed_off_at_least_once } tenant_id description contributors genesis_events { id } events_count alerts2 { id } assignee { id email family_name name tenants { id name } status email_normalized user_id given_name email_verified roles } service_desk_type updated_at investigationType assets_count genesis_events_count alerts_count assignee_id tags created_by_scwx created_at created_by_partner activity_logs { id target comment tenant_id investigation_id description user_id created_at type updated_at } auth_credentials type events { id } assignee_user { id } rn deleted_at alerts { id } processing_status { events alerts assets } first_notified_at_scwx archived_at service_desk_id status genesis_alerts_count files_count created_by_user { id } priority assets { id } contributed_users { id } id created_by genesis_alerts { id } access_vectors { id name investigation_id mitre_info { data_sources tactics technique description platform technique_id system_requirements defence_bypassed contributors url version type } created_at updated_at } comments_count { parent_id unread parent_type total } latest_activity genesis_alerts2 { id } shortId key_findings }
+            totalCount investigations { id investigationType tenant_id search_queries { id } first_notified_at notified_at transition_state { handed_off acknowledge_time resolved_at_least_once handoff_time initial_handoff_time resolution_time initial_resolution_time acknowledged initial_acknowledge_time acknowledged_at_least_once resolved handed_off_at_least_once } tenant_id description contributors genesis_events { id } events_count alerts2 { id } assignee { id email family_name name tenants { id name } status email_normalized user_id given_name email_verified roles } service_desk_type updated_at investigationType assets_count genesis_events_count alerts_count assignee_id tags created_by_scwx created_at created_by_partner activity_logs { id target comment tenant_id investigation_id description user_id created_at type updated_at } auth_credentials type events { id } assignee_user { id } rn deleted_at alerts { id } processing_status { events alerts assets } first_notified_at_scwx archived_at service_desk_id status genesis_alerts_count files_count created_by_user { id } priority assets { id } contributed_users { id } id created_by genesis_alerts { id } access_vectors { id name investigation_id mitre_info { data_sources tactics technique description platform technique_id system_requirements defence_bypassed contributors url version type } created_at updated_at } comments_count { parent_id unread parent_type total } latest_activity genesis_alerts2 { id } shortId key_findings }
         }
     }
-
 """
 
 get_investigations_alerts_query = """query investigationAlerts($page: Int, $perPage: Int, $investigation_id: ID!)
@@ -89,14 +95,15 @@ get_user_by_id_query = """query tdruser($id: ID!, $excludeDeactivatedRoleAssignm
             id id_uuid user_id user_id_v1 created_at updated_at created_by updated_by last_login invited_date registered_date deactivated_date status status_localized email email_normalized family_name given_name phone_number phone_extension secondary_phone_number secondary_phone_extension roles tenants { id } tenants_v2 { id role } accessible_tenants { id name name_normalized enabled allow_response_actions actions_approver expires_at environments { name enabled } labels { id tenant_id name value } services { id name description } is_partner parent } role_assignments { id tenant_id role_id deactivated role_name role_display_name expires_at created_at updated_at allowed_environments } environments eula { date version } timezone tenant_status tenant_status_localized entitlement_channel allowed_entitlement_channels masked community_role is_scwx is_partner preferred_language pre_verified
         }
     }
-
 """
 
 isolate_assets_query = """mutation isolateAsset($id: ID!, $reason: String!)
     {
         isolateAsset(id: $id, reason: $reason)
         {
-           id hostId rn tenantId sensorTenant sensorId ingestTime createdAt updatedAt deletedAt biosSerial firstDiskSerial systemVolumeSerial sensorVersion endpointType endpointPlatform hostnames ethernetAddresses ipAddresses}
+           id hostId rn tenantId sensorTenant sensorId ingestTime createdAt updatedAt deletedAt biosSerial firstDiskSerial systemVolumeSerial sensorVersion endpointType endpointPlatform hostnames {id hostId hostname createdAt updatedAt} ethernetAddresses {id hostId createdAt updatedAt mac} ipAddresses {id ip hostId createdAt updatedAt}
+        }
+    }
 """
 
 update_alert_status_query = """
@@ -127,7 +134,7 @@ unarchive_investigation_query = """mutation unArchiveInvestigation($investigatio
     }
 """
 
-add_alerts_to_investigation_query = """mutation addAlertsToInvestigation($investigation_id: ID!, $alerts: String!)
+add_alerts_to_investigation_query = """mutation addAlertsToInvestigation($investigation_id: ID!, $alerts: [String!]!)
     {
         addAlertsToInvestigation(investigation_id: $investigation_id, alerts: $alerts)
         {
@@ -136,7 +143,7 @@ add_alerts_to_investigation_query = """mutation addAlertsToInvestigation($invest
     }
 """
 
-add_events_to_investigation_query = """mutation addEventsToInvestigation($investigation_id: ID!, $events: String!)
+add_events_to_investigation_query = """mutation addEventsToInvestigation($investigation_id: ID!, $events: [String!]!)
     {
         addEventsToInvestigation(investigation_id: $investigation_id, events: $events)
         {
@@ -145,7 +152,7 @@ add_events_to_investigation_query = """mutation addEventsToInvestigation($invest
     }
 """
 
-create_investigation_query = """mutation createInvestigation($investigation: investigationInput!)
+create_investigation_query = """mutation createInvestigation($investigation: InvestigationInput!)
     {
         createInvestigation(investigation: $investigation)
         {
@@ -154,20 +161,20 @@ create_investigation_query = """mutation createInvestigation($investigation: inv
     }
 """
 
-execute_playbook_query = """mutation executePlaybook($playbookId: ID!, $parameters: JSONObject)
+execute_playbook_query = """mutation executePlaybookInstance($playbookInstanceId: ID!, $parameters: JSONObject)
 {
-    executePlaybook(playbookId: $playbookId, parameters:$parameters)
+    executePlaybookInstance(playbookInstanceId: $playbookInstanceId, parameters:$parameters)
     {
         id createdAt createdBy updatedAt updatedBy state tenant inputs outputs runId
     }
 }
 """
 
-create_comment_query = """mutation createActivityLogForInvestigation($investigation_id: ID!, $activityLog: ActivityLogInput!)
+create_comment_query = """mutation addCommentToInvestigation($input: AddCommentToInvestigationInput!)
     {
-        createActivityLogForInvestigation(investigation_id: $investigation_id, activityLog: $activityLog)
+        addCommentToInvestigation(input : $input)
         {
-            id created_at updated_at tenant_id user_id description type comment target investigation_id
+            id createdAt updatedAt authorId comment investigationId tenantId mentionsIds readByIds isInternal author { id }
         }
     }
 """

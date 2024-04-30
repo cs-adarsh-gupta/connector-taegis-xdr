@@ -1,7 +1,7 @@
 {
   "name": "taegis-xdr",
   "label": "Taegis XDR",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "SecureWorks Taegis\u2122 XDR offers superior detection, unmatched response and an open platform built from the ground up to integrate market-leading technologies and deliver the highest ROI.",
   "publisher": "Fortinet",
   "cs_approved": false,
@@ -71,9 +71,33 @@
       "visible": true,
       "enabled": true,
       "output_schema": {
-        "TaegisXDR": {
-          "Investigation": {
-            "id": ""
+        "data": {
+          "createInvestigation": {
+            "id": "",
+            "rn": "",
+            "tags": [],
+            "type": "",
+            "alerts": [],
+            "assets": [],
+            "events": [],
+            "status": "",
+            "shortId": "",
+            "assignee": "",
+            "priority": "",
+            "tenant_id": "",
+            "created_at": "",
+            "created_by": "",
+            "updated_at": "",
+            "assignee_id": "",
+            "closeReason": "",
+            "description": "",
+            "alerts_count": "",
+            "contributors": [],
+            "events_count": "",
+            "key_findings": "",
+            "service_desk_id": "",
+            "auth_credentials": [],
+            "service_desk_type": ""
           }
         }
       },
@@ -170,102 +194,78 @@
             "totalCount": "",
             "investigations": [
               {
-                "search_queries": [],
-                "first_notified_at": "",
-                "notified_at": "",
-                "transition_state": {
-                  "handed_off": "",
-                  "acknowledge_time": "",
-                  "resolved_at_least_once": "",
-                  "handoff_time": "",
-                  "initial_handoff_time": "",
-                  "resolution_time": "",
-                  "initial_resolution_time": "",
-                  "acknowledged": "",
-                  "initial_acknowledge_time": "",
-                  "acknowledged_at_least_once": "",
-                  "resolved": "",
-                  "handed_off_at_least_once": ""
-                },
-                "tenant_id": "",
-                "description": "",
-                "contributors": [],
-                "genesis_events": [],
-                "events_count": "",
-                "alerts2": [
-                  {
-                    "id": ""
-                  }
-                ],
-                "assignee": "",
-                "service_desk_type": "",
-                "updated_at": "",
-                "investigationType": "",
-                "assets_count": "",
-                "genesis_events_count": "",
-                "alerts_count": "",
-                "assignee_id": "",
-                "tags": [],
-                "created_by_scwx": "",
-                "created_at": "",
-                "created_by_partner": "",
-                "activity_logs": [],
-                "auth_credentials": [],
-                "type": "",
-                "events": [
-                  {
-                    "id": ""
-                  }
-                ],
-                "assignee_user": {
-                  "id": ""
-                },
-                "rn": "",
-                "deleted_at": "",
-                "alerts": [
-                  {
-                    "id": ""
-                  }
-                ],
-                "processing_status": {
-                  "events": "",
-                  "alerts": "",
-                  "assets": ""
-                },
-                "first_notified_at_scwx": "",
-                "archived_at": "",
-                "service_desk_id": "",
-                "status": "",
-                "genesis_alerts_count": "",
-                "files_count": "",
-                "created_by_user": {
-                  "id": ""
-                },
-                "priority": "",
-                "assets": [
-                  {
-                    "id": ""
-                  }
-                ],
-                "contributed_users": [
-                  {
-                    "id": ""
-                  }
-                ],
                 "id": "",
+                "rn": "",
+                "tags": [],
+                "type": "",
+                "alerts": [],
+                "assets": [],
+                "events": [],
+                "status": "",
+                "alerts2": [],
+                "shortId": "",
+                "assignee": "",
+                "priority": "",
+                "tenant_id": "",
+                "created_at": "",
                 "created_by": "",
-                "genesis_alerts": [],
+                "deleted_at": "",
+                "updated_at": "",
+                "archived_at": "",
+                "assignee_id": "",
+                "description": "",
+                "files_count": "",
+                "notified_at": "",
+                "alerts_count": "",
+                "assets_count": "",
+                "contributors": [],
+                "events_count": "",
+                "key_findings": "",
+                "activity_logs": [],
+                "assignee_user": "",
                 "access_vectors": [],
                 "comments_count": {
-                  "parent_id": "",
+                  "total": "",
                   "unread": "",
-                  "parent_type": "",
-                  "total": ""
+                  "parent_id": "",
+                  "parent_type": ""
                 },
-                "latest_activity": "",
+                "genesis_alerts": [],
+                "genesis_events": [],
+                "search_queries": [],
+                "created_by_scwx": "",
+                "created_by_user": "",
                 "genesis_alerts2": [],
-                "shortId": "",
-                "key_findings": ""
+                "latest_activity": "",
+                "service_desk_id": "",
+                "auth_credentials": [],
+                "transition_state": {
+                  "resolved": "",
+                  "handed_off": "",
+                  "acknowledged": "",
+                  "handoff_time": "",
+                  "resolution_time": "",
+                  "acknowledge_time": "",
+                  "initial_handoff_time": "",
+                  "resolved_at_least_once": "",
+                  "initial_resolution_time": "",
+                  "handed_off_at_least_once": "",
+                  "initial_acknowledge_time": "",
+                  "acknowledged_at_least_once": ""
+                },
+                "contributed_users": "",
+                "first_notified_at": "",
+                "investigationType": "",
+                "processing_status": {
+                  "alerts": "",
+                  "assets": "",
+                  "events": ""
+                },
+                "service_desk_type": "",
+                "created_by_partner": "",
+                "genesis_alerts_count": "",
+                "genesis_events_count": "",
+                "first_notified_at_scwx": ""
               }
             ]
           }
@@ -364,15 +364,11 @@
       "visible": true,
       "enabled": true,
       "output_schema": {
-        "TaegisXDR": {
-          "InvestigationAlerts": [
-            {
-              "id": "",
-              "description": "",
-              "message": "",
-              "severity": ""
-            }
-          ]
+        "data": {
+          "investigationAlerts": {
+            "alerts": [],
+            "totalCount": ""
+          }
         }
       },
       "parameters": [
@@ -420,9 +416,33 @@
       "visible": true,
       "enabled": true,
       "output_schema": {
-        "TaegisXDR": {
-          "InvestigationUpdate": {
-            "id": ""
+        "data": {
+          "updateInvestigation": {
+            "id": "",
+            "tenant_id": "",
+            "tags": [],
+            "alerts": [],
+            "events": [],
+            "assets": [],
+            "auth_credentials": [],
+            "key_findings": "",
+            "description": "",
+            "created_at": "",
+            "updated_at": "",
+            "created_by": "",
+            "status": "",
+            "contributors": [],
+            "service_desk_id": "",
+            "service_desk_type": "",
+            "assignee_id": "",
+            "assignee": "",
+            "priority": "",
+            "type": "",
+            "closeReason": "",
+            "alerts_count": "",
+            "events_count": "",
+            "rn": "",
+            "shortId": ""
           }
         }
       },
@@ -620,25 +640,35 @@
       "visible": true,
       "enabled": true,
       "output_schema": {
-        "TaegisXDR": {
-          "CommentCreate": {
-            "id": ""
+        "data": {
+          "addCommentToInvestigation": {
+            "id": "",
+            "author": "",
+            "comment": "",
+            "authorId": "",
+            "tenantId": "",
+            "createdAt": "",
+            "readByIds": [],
+            "updatedAt": "",
+            "isInternal": "",
+            "mentionsIds": [],
+            "investigationId": ""
           }
         }
       },
       "parameters": [
         {
-          "name": "investigation_id",
+          "name": "investigationId",
           "title": "Investigation ID",
           "type": "text",
           "editable": true,
           "visible": true,
-          "required": false,
+          "required": true,
           "tooltip": "Specify the ID of the investigation in which the specified comment is to be added.",
           "description": "Specify the ID of the investigation in which the specified comment is to be added."
         },
         {
-          "name": "description",
+          "name": "comment",
           "title": "Comment",
           "type": "text",
           "editable": true,
@@ -747,7 +777,8 @@
           "title": "Resolution Status",
           "type": "select",
           "options": [
-            "Open,True Positive Benign",
+            "Open",
+            "True Positive Benign",
             "True Positive Malicious",
             "False Positive",
             "Not Actionable",
@@ -1088,18 +1119,31 @@
       "operation": "execute_playbook",
       "title": "Execute Playbook",
       "annotation": "execute_playbook",
-      "description": "Execute playbook in Taegis XDR system according to Playbook ID and supplied parameters.",
+      "description": "Execute playbook instance in Taegis XDR system according to Playbook ID and supplied parameters.",
       "category": "investigation",
       "is_config_required": true,
       "visible": true,
       "enabled": true,
       "output_schema": {
-        "id": ""
+        "data": {
+          "executePlaybookInstance": {
+            "id": "",
+            "runId": "",
+            "state": "",
+            "inputs": {},
+            "tenant": "",
+            "outputs": "",
+            "createdAt": "",
+            "createdBy": "",
+            "updatedAt": "",
+            "updatedBy": ""
+          }
+        }
       },
       "parameters": [
         {
-          "name": "playbookId",
-          "title": "Playbook ID",
+          "name": "playbookInstanceId",
+          "title": "Playbook Instance ID",
           "type": "text",
           "editable": true,
           "visible": true,
